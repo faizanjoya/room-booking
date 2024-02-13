@@ -9,6 +9,7 @@ docker compose up -d
 
 ```
 npm install
+make generate
 npm run migrate
 ```
 
