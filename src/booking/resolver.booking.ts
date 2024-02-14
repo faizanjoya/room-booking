@@ -5,6 +5,7 @@ import { Booking } from './booking';
 import { Room } from '../room/room';
 import { Customer } from '../customer/customer';
 import { PrismaService } from '../prisma.service';
+import { BOOKING_END_HOUR, BOOKING_START_HOUR } from './const';
 
 @InputType()
 class BookingCreateInput {
@@ -67,7 +68,6 @@ export class BookingResolver {
         @Args('data') data: BookingCreateInput,
         @Context() ctx,
     ): Promise<Booking> {
-        // TODO handle any validation or error cases as needed
 
         if (data.checkIn >= data.checkOut) {
             throw new Error('Check-in date must be before check-out date');
@@ -79,36 +79,42 @@ export class BookingResolver {
             throw new Error('Check-in date must be today or in the future');
         }
 
-        const testData = {
-            checkIn: data.checkIn,
-            checkOut: data.checkOut,
+        const bookingStartAtDateTime = new Date(data.checkIn);
+        const bookingEndAtDateTime = new Date(data.checkOut);
+
+        // assumed booking Start and End time hour set in const file
+        if (bookingStartAtDateTime.getHours() < BOOKING_START_HOUR) {
+            throw new Error(`Booking start time should be at or after ${BOOKING_START_HOUR}:00`);
         }
 
-        console.log("test data 1", testData);
+        if (bookingEndAtDateTime.getHours() > BOOKING_END_HOUR) {
+            throw new Error(`Booking end time should be at or ealier than ${BOOKING_START_HOUR}:00`);
+        }
 
+        // Assumption minutes, seconds and milliseconds are 0 always
+        bookingStartAtDateTime.setHours(BOOKING_START_HOUR, 0, 0, 0)
+        bookingEndAtDateTime.setHours(BOOKING_END_HOUR, 0, 0, 0);
 
-        const bookings = await this.prismaService.booking.findMany({
+        const listExistingBookings = await this.prismaService.booking.findMany({
             where: {
                 roomId: data.roomId,
                 checkIn: {
-                    lte: data.checkOut,
+                    lte: bookingEndAtDateTime,
                 },
                 checkOut: {
-                    gte: data.checkIn,
+                    gte: bookingStartAtDateTime,
                 },
             },
         });
 
-        console.log("bookings", bookings);
-
-        if (bookings.length > 0) {
+        if (listExistingBookings.length > 0) {
             throw new Error('Room is already booked for the selected dates');
         }
 
         return this.prismaService.booking.create({
             data: {
-                checkIn: data.checkIn,
-                checkOut: data.checkOut,
+                checkIn: bookingStartAtDateTime,
+                checkOut: bookingEndAtDateTime,
                 paid: data.paid,
                 room: {
                     connect: {
