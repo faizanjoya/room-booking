@@ -8,7 +8,10 @@ db:
 
 migrate:
 	npx prisma migrate dev
-	
+
+dev:
+	npm run dev
+
 seed: 
 	npx prisma db seed
 
@@ -23,8 +26,8 @@ initialise:
 schema:
 	npx prisma generate
 
-dev:
-	npm run dev
-
-db-stop:
+down:
 	docker compose down
+
+db-reset:
+	docker compose down -v

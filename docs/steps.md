@@ -7,7 +7,7 @@ npx try-prisma@latest --template typescript/graphql-nestjs
 Install
 
 ```
-npm install
+make install
 ```
 
 Run postgressql database and db admin panel
@@ -16,11 +16,19 @@ Run postgressql database and db admin panel
 make db
 ```
 
-Run databsse migrations
+Run database migrations
 
 ```
 make migrate
 ```
+
+If there are errors and want to clear your docker
+
+```
+docker compose down -v
+```
+
+then run again above
 
 Launch the Server
 
