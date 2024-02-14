@@ -51,6 +51,7 @@ model Room {
   bookings    Booking[]
 }
 
+// if we want users to be able to create room types then we should create roomtype model, and then create a relation between room and roomtype
 enum RoomType {
   SINGLE
   DOUBLE
