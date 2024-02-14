@@ -74,9 +74,8 @@ export class RoomResolver {
     //   return { /* map your Booking fields here */ };
     // });
 
-    //todo gql error throwing
     if (data.number <= 0) {
-      throw new Error('Number must be greater than 0');
+      throw new Error('Room number must be greater than 0');
     }
 
     return this.prismaService.room.create({
@@ -92,6 +91,7 @@ export class RoomResolver {
         // },
       },
     });
+
   }
 
   @Query((returns) => [Room], { nullable: true })
