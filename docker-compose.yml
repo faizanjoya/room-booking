@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
   postgres:
@@ -9,9 +9,15 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_DB=postgres
     ports:
-      - '5432:5432'
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   adminer:
     image: adminer
     restart: always
     ports:
-      - '8080:8080'
+      - "8080:8080"
+
+volumes:
+  postgres_data:

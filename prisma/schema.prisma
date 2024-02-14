@@ -28,27 +28,20 @@ model Post {
 }
 
 // hotel room booking
-
-model HotelRoom {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String
-  type      String // change to enum with postgresql
-  number    Int
-  content   String
+model Room {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  title       String
+  description String?
+  number      Int
+  type        RoomType @default(SINGLE)
+  sleeps      Int      @default(1)
 }
 
-//   type      RoomType @default(SINGLE)
-// enum RoomType {
-//   SINGLE
-//   DOUBLE
-//   TRIPLE
-//   QUAD
-//   QUEEN
-//   KING
-//   TWIN
-//   STUDIO
-//   SUITE
-//   MASTER_SUITE
-// }
+enum RoomType {
+  SINGLE
+  DOUBLE
+  KING
+  SUITE
+}

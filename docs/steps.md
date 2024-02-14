@@ -6,6 +6,8 @@ npx try-prisma@latest --template typescript/graphql-nestjs
 
 Run postgressql
 docker compose up -d
+or
+make db
 
 ```
 npm install
