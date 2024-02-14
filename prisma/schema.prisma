@@ -57,6 +57,7 @@ enum RoomType {
   DOUBLE
   KING
   SUITE
+  FAMILY
 }
 
 model Customer {

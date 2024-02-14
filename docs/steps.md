@@ -11,7 +11,7 @@ make db
 
 ```
 npm install
-make generate
+make migrate
 npm run migrate
 ```
 

@@ -68,6 +68,34 @@ const customerData: Prisma.CustomerCreateInput[] = [
   },
 ]
 
+const roomData: Prisma.RoomCreateInput[] = [
+  {
+    title: 'Room 1',
+    description: 'A nice room with a view',
+    number: 101,
+    type: 'SINGLE',
+    sleeps: 1,
+    cost: 100,
+  },
+  {
+    title: 'Room 2',
+    description: 'A nice room with a view',
+    number: 102,
+    type: 'DOUBLE',
+    sleeps: 2,
+    cost: 150,
+  },
+  {
+    title: 'Room 3',
+    description: 'A nice room with a view',
+    number: 103,
+    type: 'FAMILY',
+    sleeps: 4,
+    cost: 200,
+  },
+
+]
+
 async function main() {
   console.log(`Start seeding ...`)
 
@@ -91,6 +119,16 @@ async function main() {
   } catch (error) {
     console.error(error)
     console.error('Error creating customers')
+  }
+
+  try {
+    const createdRooms = await prisma.room.createMany({
+      data: roomData,
+    })
+    console.log(`Created ${createdRooms.count} rooms`)
+  } catch (error) {
+    console.error(error)
+    console.error('Error creating rooms')
   }
 
   console.log(`Seeding finished.`)

@@ -65,6 +65,7 @@ type Query {
   postById(id: Float!): Post
   feed(searchString: String, skip: Float, take: Float, orderBy: PostOrderByUpdatedAtInput): [Post!]!
   allCustomers: [Customer!]
+  allRooms: [Room!]
 }
 
 input UserUniqueInput {
@@ -88,6 +89,7 @@ type Mutation {
   togglePublishPost(id: Float!): Post
   deletePost(id: Float!): Post
   createCustomer(data: CustomerCreateInput!): Customer!
+  createRoom(data: RoomCreateInput!): Room!
 }
 
 input UserCreateInput {
@@ -105,4 +107,13 @@ input CustomerCreateInput {
   email: String!
   name: String!
   phone: String
+}
+
+input RoomCreateInput {
+  title: String!
+  description: String
+  number: Float!
+  type: String!
+  sleeps: Float!
+  cost: Float!
 }
