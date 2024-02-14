@@ -102,6 +102,7 @@ type Mutation {
   deleteRoom(id: Float!): Room
   createBooking(data: BookingCreateInput!): Booking!
   deleteBooking(id: Float!): Booking
+  togglePaidBooking(id: Float!, isPaid: Boolean!): Booking
 }
 
 input UserCreateInput {

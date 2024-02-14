@@ -99,4 +99,27 @@ export class BookingResolver {
         })
     }
 
+    @Mutation((returns) => Booking, { nullable: true })
+    async togglePaidBooking(
+        @Args('id') id: number,
+        @Args('isPaid') isPaid: boolean,
+    ): Promise<Booking | null> {
+        const booking = await this.prismaService.booking.findUnique({
+            where: { id: id || undefined }
+        })
+
+        if (!booking) {
+            throw new Error('Booking not found');
+        }
+
+        if (booking.paid === isPaid) {
+            return booking;
+        }
+
+        return this.prismaService.booking.update({
+            where: { id: id || undefined },
+            data: { paid: isPaid },
+        })
+    }
+
 }

@@ -2,16 +2,25 @@
   mutation createBooking($data: BookingCreateInput!) {
   createBooking(data: $data) {
     id
+    createdAt
+    updatedAt
     checkIn
     checkOut
     paid
     room {
       id
       title
+      description
+      number
+      type
+      sleeps
+      cost
     }
     customer {
       id
       name
+      email
+      phone
     }
   }
 }
@@ -24,5 +33,34 @@
     "paid": true,
     "roomId": 1,
     "customerId": 2
+  }
+}
+
+
+
+# toggle paid for an exisitng booking. update id and isPaid param to match booking
+mutation {
+  togglePaidBooking(id:1, isPaid:true) {
+    id
+    createdAt
+    updatedAt
+    checkIn
+    checkOut
+    paid
+    room {
+    	id
+      title
+      description
+      number
+      type
+      sleeps
+      cost
+    }
+    customer {
+      id
+      name
+      email
+      phone
+    }
   }
 }

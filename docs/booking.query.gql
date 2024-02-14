@@ -1,6 +1,10 @@
 query {
   allBookings {
     id
+    createdAt
+    updatedAt
+    checkIn
+    checkOut
     paid
     room {
       id
@@ -12,6 +16,7 @@ query {
       cost
     }
     customer {
+      id
       name
       email
       phone
