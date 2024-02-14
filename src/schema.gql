@@ -11,8 +11,8 @@ type User {
 
 type Post {
   id: Int!
-  createdAt: Timestamp!
-  updatedAt: Timestamp!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   title: String!
   content: String
   published: Boolean
@@ -21,14 +21,14 @@ type Post {
 }
 
 """
-`Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
-scalar Timestamp
+scalar DateTime
 
 type Room {
   id: Int!
-  createdAt: Timestamp!
-  updatedAt: Timestamp!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   title: String!
   description: String
   number: Int!
@@ -40,8 +40,8 @@ type Room {
 
 type Customer {
   id: Int!
-  createdAt: Timestamp!
-  updatedAt: Timestamp!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   email: String!
   name: String!
   phone: String
@@ -50,10 +50,10 @@ type Customer {
 
 type Booking {
   id: Int!
-  createdAt: Timestamp!
-  updatedAt: Timestamp!
-  checkIn: Timestamp!
-  checkOut: Timestamp!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  checkIn: DateTime!
+  checkOut: DateTime!
   paid: Boolean
   room: Room
   customer: Customer
@@ -132,8 +132,8 @@ input RoomCreateInput {
 }
 
 input BookingCreateInput {
-  checkIn: Timestamp!
-  checkOut: Timestamp!
+  checkIn: DateTime!
+  checkOut: DateTime!
   paid: Boolean
   roomId: Int!
   customerId: Int!

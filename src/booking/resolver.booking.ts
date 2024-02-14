@@ -68,6 +68,43 @@ export class BookingResolver {
         @Context() ctx,
     ): Promise<Booking> {
         // TODO handle any validation or error cases as needed
+
+        if (data.checkIn >= data.checkOut) {
+            throw new Error('Check-in date must be before check-out date');
+        }
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (data.checkIn < today) {
+            throw new Error('Check-in date must be today or in the future');
+        }
+
+        const testData = {
+            checkIn: data.checkIn,
+            checkOut: data.checkOut,
+        }
+
+        console.log("test data 1", testData);
+
+
+        const bookings = await this.prismaService.booking.findMany({
+            where: {
+                roomId: data.roomId,
+                checkIn: {
+                    lte: data.checkOut,
+                },
+                checkOut: {
+                    gte: data.checkIn,
+                },
+            },
+        });
+
+        console.log("bookings", bookings);
+
+        if (bookings.length > 0) {
+            throw new Error('Room is already booked for the selected dates');
+        }
+
         return this.prismaService.booking.create({
             data: {
                 checkIn: data.checkIn,

@@ -15,7 +15,6 @@ import { Booking } from '../booking/booking';
 import { Room } from './room';
 import { PrismaService } from '../prisma.service';
 import { RoomType } from '@prisma/client';
-// import { BookingCreateInput } from '../booking/resolvers.booking';
 
 // TODO roomunique input
 @InputType()
@@ -46,9 +45,6 @@ class RoomCreateInput {
 
   @Field()
   cost: number;
-
-  // @Field((type) => [BookingCreateInput], { nullable: true })
-  // bookings: [BookingCreateInput];
 }
 
 @Resolver(Room)
@@ -71,9 +67,6 @@ export class RoomResolver {
     @Args('data') data: RoomCreateInput,
     @Context() ctx,
   ): Promise<Room> {
-    // const bookingData = data.bookings?.map((booking) => {
-    //   return { /* map your Booking fields here */ };
-    // });
 
     if (data.number <= 0) {
       throw new Error('Room number must be greater than 0');
@@ -87,9 +80,6 @@ export class RoomResolver {
         type: data.type as RoomType,
         sleeps: data.sleeps,
         cost: data.cost,
-        // bookings: {
-        //   create: bookingData,
-        // },
       },
     });
 
