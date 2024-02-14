@@ -38,6 +38,16 @@ type Room {
   bookings: [Booking!]
 }
 
+type Customer {
+  id: Int!
+  createdAt: Timestamp!
+  updatedAt: Timestamp!
+  email: String!
+  name: String!
+  phone: String
+  bookings: [Booking!]
+}
+
 type Booking {
   id: Int!
   createdAt: Timestamp!
@@ -49,22 +59,14 @@ type Booking {
   customer: Customer
 }
 
-type Customer {
-  id: Int!
-  createdAt: Timestamp!
-  updatedAt: Timestamp!
-  email: String!
-  name: String!
-  phone: String
-  bookings: [Booking!]
-}
-
 type Query {
   allUsers: [User!]
   draftsByUser(userUniqueInput: UserUniqueInput!): [Post!]
   postById(id: Float!): Post
   feed(searchString: String, skip: Float, take: Float, orderBy: PostOrderByUpdatedAtInput): [Post!]!
   allCustomers: [Customer!]
+  customerByIdOrEmail(customerUniqueInput: CustomerUniqueInput!): Customer
+  unpaidBookingByCustomer(customerUniqueInput: CustomerUniqueInput!): [Booking!]
   allRooms: [Room!]
   bookingById(id: Float!): Booking
   allBookings: [Booking!]
@@ -82,6 +84,11 @@ input PostOrderByUpdatedAtInput {
 enum SortOrder {
   asc
   desc
+}
+
+input CustomerUniqueInput {
+  id: Float
+  email: String
 }
 
 type Mutation {

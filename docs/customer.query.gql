@@ -6,3 +6,45 @@ query {
     phone
   }
 }
+
+# query by email or id
+query {
+  customerByIdOrEmail(customerUniqueInput: { email: "emma@example.com" }) {
+    id
+    name
+    email
+    phone
+  }
+}
+
+query {
+  customerByIdOrEmail(customerUniqueInput: { id: 1 }) {
+    id
+    name
+    email
+    phone
+  }
+}
+
+#  find out if customer has any unpaid bookings by id or email
+query {
+  unpaidBookingByCustomer(customerUniqueInput: { email: "emma@example.com" }) {
+    id
+    paid
+    room {
+      id
+      title
+      description
+      number
+      type
+      sleeps
+      cost
+    }
+    customer {
+      id
+      name
+      email
+      phone
+    }
+  }
+}

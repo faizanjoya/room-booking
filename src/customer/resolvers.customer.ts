@@ -80,4 +80,35 @@ export class CustomerResolver {
   async allCustomers(@Context() ctx) {
     return this.prismaService.customer.findMany();
   }
+
+  @Query((returns) => Customer, { nullable: true })
+  async customerByIdOrEmail(
+    @Args('customerUniqueInput') customerUniqueInput: CustomerUniqueInput,
+  ): Promise<Customer> {
+    return this.prismaService.customer
+      .findUnique({
+        where: {
+          id: customerUniqueInput.id || undefined,
+          email: customerUniqueInput.email || undefined,
+        },
+      })
+  }
+
+  @Query((returns) => [Booking], { nullable: true })
+  async unpaidBookingByCustomer(
+    @Args('customerUniqueInput') customerUniqueInput: CustomerUniqueInput,
+  ): Promise<Booking[]> {
+    return this.prismaService.customer
+      .findUnique({
+        where: {
+          id: customerUniqueInput.id || undefined,
+          email: customerUniqueInput.email || undefined,
+        },
+      })
+      .bookings({
+        where: {
+          paid: false,
+        },
+      })
+  }
 }
