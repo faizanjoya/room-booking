@@ -44,7 +44,7 @@ model Room {
   updatedAt   DateTime  @updatedAt
   title       String
   description String?
-  number      Int
+  number      Int       @unique
   type        RoomType  @default(SINGLE)
   sleeps      Int       @default(1)
   cost        Float
