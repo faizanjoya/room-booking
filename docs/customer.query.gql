@@ -1,0 +1,8 @@
+query {
+  allCustomers {
+    id
+    name
+    email
+    phone
+  }
+}

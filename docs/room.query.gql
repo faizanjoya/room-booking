@@ -1,0 +1,11 @@
+query {
+  allRooms {
+    id
+    title
+    description
+    number
+    type
+    sleeps
+    cost
+  }
+}

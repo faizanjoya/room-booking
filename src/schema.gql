@@ -92,7 +92,9 @@ type Mutation {
   deletePost(id: Float!): Post
   createCustomer(data: CustomerCreateInput!): Customer!
   createRoom(data: RoomCreateInput!): Room!
+  deleteRoom(id: Float!): Room
   createBooking(data: BookingCreateInput!): Booking!
+  deleteBooking(id: Float!): Booking
 }
 
 input UserCreateInput {

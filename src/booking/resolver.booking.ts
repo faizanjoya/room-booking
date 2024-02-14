@@ -63,7 +63,7 @@ export class BookingResolver {
     }
 
     @Mutation((returns) => Booking)
-    createBooking(
+    async createBooking(
         @Args('data') data: BookingCreateInput,
         @Context() ctx,
     ): Promise<Booking> {
@@ -87,5 +87,16 @@ export class BookingResolver {
         });
     }
 
+    @Mutation((returns) => Booking, { nullable: true })
+    async deleteBooking(
+        @Args('id') id: number,
+        @Context() ctx,
+    ): Promise<Booking | null> {
+        return this.prismaService.booking.delete({
+            where: {
+                id: id,
+            },
+        })
+    }
 
 }

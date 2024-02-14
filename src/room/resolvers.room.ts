@@ -17,6 +17,7 @@ import { PrismaService } from '../prisma.service';
 import { RoomType } from '@prisma/client';
 // import { BookingCreateInput } from '../booking/resolvers.booking';
 
+// TODO roomunique input
 @InputType()
 class RoomUniqueInput {
   @Field({ nullable: true })
@@ -99,5 +100,16 @@ export class RoomResolver {
     return this.prismaService.room.findMany();
   }
 
-  // Additional queries or mutations can be added as needed
+  @Mutation((returns) => Room, { nullable: true })
+  async deleteRoom(
+    @Args('id') id: number,
+    @Context() ctx,
+  ): Promise<Room | null> {
+    return this.prismaService.room.delete({
+      where: {
+        id: id,
+      },
+    })
+  }
+
 }
