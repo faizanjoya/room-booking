@@ -25,11 +25,46 @@ type Post {
 """
 scalar Timestamp
 
+type Room {
+  id: Int!
+  createdAt: Timestamp!
+  updatedAt: Timestamp!
+  title: String!
+  description: String
+  number: Int!
+  type: String!
+  sleeps: Int!
+  cost: Int!
+  bookings: [Booking!]
+}
+
+type Booking {
+  id: Int!
+  createdAt: Timestamp!
+  updatedAt: Timestamp!
+  checkIn: Timestamp!
+  checkOut: Timestamp!
+  paid: Boolean
+  room: Room
+  customer: Customer
+}
+
+type Customer {
+  id: Int!
+  createdAt: Timestamp!
+  updatedAt: Timestamp!
+  email: String!
+  name: String!
+  phone: String
+  bookings: [Booking!]
+}
+
 type Query {
   allUsers: [User!]
   draftsByUser(userUniqueInput: UserUniqueInput!): [Post!]
   postById(id: Float!): Post
   feed(searchString: String, skip: Float, take: Float, orderBy: PostOrderByUpdatedAtInput): [Post!]!
+  allCustomers: [Customer!]
 }
 
 input UserUniqueInput {
@@ -52,6 +87,7 @@ type Mutation {
   incrementPostViewCount(id: Float!): Post!
   togglePublishPost(id: Float!): Post
   deletePost(id: Float!): Post
+  createCustomer(data: CustomerCreateInput!): Customer!
 }
 
 input UserCreateInput {
@@ -63,4 +99,10 @@ input UserCreateInput {
 input PostCreateInput {
   title: String!
   content: String
+}
+
+input CustomerCreateInput {
+  email: String!
+  name: String!
+  phone: String
 }

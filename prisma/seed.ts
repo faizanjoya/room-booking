@@ -50,15 +50,49 @@ const userData: Prisma.UserCreateInput[] = [
   },
 ]
 
+const customerData: Prisma.CustomerCreateInput[] = [
+  {
+    name: 'Nilu',
+    email: 'test@.com',
+    phone: '1234567890',
+  },
+  {
+    name: 'John',
+    email: 'john@example.com',
+    phone: '9876543210',
+  },
+  {
+    name: 'Emma',
+    email: 'emma@example.com',
+    phone: '5555555555',
+  },
+]
 
 async function main() {
   console.log(`Start seeding ...`)
-  for (const u of userData) {
-    const user = await prisma.user.create({
-      data: u,
-    })
-    console.log(`Created user with id: ${user.id}`)
+
+  try {
+    for (const u of userData) {
+      const user = await prisma.user.create({
+        data: u,
+      })
+      console.log(`Created user with id: ${user.id}`)
+    }
+  } catch (error) {
+    console.error(error)
+    console.error('Error creating users')
   }
+
+  try {
+    const createdCustomers = await prisma.customer.createMany({
+      data: customerData,
+    })
+    console.log(`Created ${createdCustomers.count} customers`)
+  } catch (error) {
+    console.error(error)
+    console.error('Error creating customers')
+  }
+
   console.log(`Seeding finished.`)
 }
 

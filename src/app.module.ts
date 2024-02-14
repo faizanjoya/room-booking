@@ -5,6 +5,7 @@ import { PostResolver } from './posts/resolvers.post'
 import { UserResolver } from './user/resolvers.user'
 import { join } from 'path'
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
+import { CustomerResolver } from './customer/resolvers.customer'
 
 @Module({
   imports: [
@@ -15,6 +16,6 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
     }),
   ],
   controllers: [],
-  providers: [PrismaService, UserResolver, PostResolver],
+  providers: [PrismaService, UserResolver, PostResolver, CustomerResolver],
 })
 export class AppModule { }
