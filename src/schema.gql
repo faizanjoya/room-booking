@@ -66,6 +66,8 @@ type Query {
   feed(searchString: String, skip: Float, take: Float, orderBy: PostOrderByUpdatedAtInput): [Post!]!
   allCustomers: [Customer!]
   allRooms: [Room!]
+  bookingById(id: Float!): Booking
+  allBookings: [Booking!]
 }
 
 input UserUniqueInput {
@@ -90,6 +92,7 @@ type Mutation {
   deletePost(id: Float!): Post
   createCustomer(data: CustomerCreateInput!): Customer!
   createRoom(data: RoomCreateInput!): Room!
+  createBooking(data: BookingCreateInput!): Booking!
 }
 
 input UserCreateInput {
@@ -116,4 +119,12 @@ input RoomCreateInput {
   type: String!
   sleeps: Float!
   cost: Float!
+}
+
+input BookingCreateInput {
+  checkIn: Timestamp!
+  checkOut: Timestamp!
+  paid: Boolean
+  roomId: Int!
+  customerId: Int!
 }

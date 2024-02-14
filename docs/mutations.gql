@@ -1,0 +1,28 @@
+
+  mutation createBooking($data: BookingCreateInput!) {
+  createBooking(data: $data) {
+    id
+    checkIn
+    checkOut
+    paid
+    room {
+      id
+      title
+    }
+    customer {
+      id
+      name
+    }
+  }
+}
+
+
+{
+  "data": {
+    "checkIn": "2024-02-14T12:00:00Z",
+    "checkOut": "2024-02-16T12:00:00Z",
+    "paid": true,
+    "roomId": 1,
+    "customerId": 2
+  }
+}

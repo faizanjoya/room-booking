@@ -14,6 +14,25 @@ query {
     sleeps
     cost
   }
+
+  allBookings {
+    id
+    paid
+    room {
+      id
+      title
+      description
+      number
+      type
+      sleeps
+      cost
+    }
+    customer {
+      name
+      email
+      phone
+    }
+  }
 }
 
 mutation {
