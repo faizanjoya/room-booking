@@ -52,14 +52,14 @@ export class BookingResolver {
     }
 
     @Query((returns) => Booking, { nullable: true })
-    bookingById(@Args('id') id: number) {
+    async bookingById(@Args('id') id: number) {
         return this.prismaService.booking.findUnique({
             where: { id },
         });
     }
 
     @Query((returns) => [Booking], { nullable: true })
-    allBookings(@Context() ctx) {
+    async allBookings(@Context() ctx) {
         return this.prismaService.booking.findMany();
     }
 
