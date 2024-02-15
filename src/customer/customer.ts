@@ -15,7 +15,6 @@ export class Customer {
   updatedAt: Date
 
   @Field()
-  @IsEmail()
   email: string
 
   @Field()
