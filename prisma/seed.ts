@@ -53,7 +53,7 @@ const userData: Prisma.UserCreateInput[] = [
 const customerData: Prisma.CustomerCreateInput[] = [
   {
     name: 'Nilu',
-    email: 'test@.com',
+    email: 'nilu@example.com',
     phone: '1234567890',
   },
   {

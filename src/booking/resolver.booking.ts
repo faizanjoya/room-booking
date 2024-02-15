@@ -30,8 +30,8 @@ export class BookingResolver {
     constructor(@Inject(PrismaService) private prismaService: PrismaService) { }
 
     @ResolveField()
-    room(@Root() booking: Booking): Promise<Room | null> {
-        return this.prismaService.booking
+    async room(@Root() booking: Booking): Promise<Room | null> {
+        return await this.prismaService.booking
             .findUnique({
                 where: {
                     id: booking.id,
@@ -41,8 +41,8 @@ export class BookingResolver {
     }
 
     @ResolveField()
-    customer(@Root() booking: Booking): Promise<Customer | null> {
-        return this.prismaService.booking
+    async customer(@Root() booking: Booking): Promise<Customer | null> {
+        return await this.prismaService.booking
             .findUnique({
                 where: {
                     id: booking.id,
@@ -52,9 +52,9 @@ export class BookingResolver {
     }
 
     @Query((returns) => Booking, { nullable: true })
-    bookingById(@Args('id') id: number) {
+    async bookingById(@Args('id') id: number): Promise<Booking | null> {
         try {
-            return this.prismaService.booking.findUnique({
+            return await this.prismaService.booking.findUnique({
                 where: { id },
             });
         } catch (error) {
@@ -63,9 +63,9 @@ export class BookingResolver {
     }
 
     @Query((returns) => [Booking], { nullable: true })
-    allBookings(@Context() ctx) {
+    async allBookings(@Context() ctx): Promise<Booking[]> {
         try {
-            return this.prismaService.booking.findMany();
+            return await this.prismaService.booking.findMany();
         } catch (error) {
             throw new Error(`Error fetching bookings. ${error}`);
         }
@@ -154,7 +154,7 @@ export class BookingResolver {
                 },
             })
         } catch (error) {
-            throw new Error(`Error deleting booking. ${error}`);
+            throw new Error(`Error deleting booking. ${error.meta.cause}`);
         }
     }
 
@@ -162,6 +162,7 @@ export class BookingResolver {
     async togglePaidBooking(
         @Args('id') id: number,
         @Args('isPaid') isPaid: boolean,
+        @Context() ctx,
     ): Promise<Booking | null> {
         try {
             const booking = await this.prismaService.booking.findUnique({
