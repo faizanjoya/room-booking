@@ -1,14 +1,14 @@
 # create a new room
 
-mutation {
+mutation CreateRoom {
   createRoom(
     data: {
-      title: "Room 1"
-      description: "A nice room with a view"
-      number: 1
-      type: "SINGLE"
-      sleeps: 1
-      cost: 100
+      title: "King Suite"
+      description: "Huuuuuge bed and a great view of the city"
+      number: 104
+      type: "KING"
+      sleeps: 2
+      cost: 4000
     }
   ) {
     id
@@ -24,7 +24,7 @@ mutation {
 }
 
 # delete room
-mutation {
+mutation DeleteRoom {
   deleteRoom(id: 5) {
     id
     title

@@ -68,6 +68,7 @@ type Query {
   customerByIdOrEmail(customerUniqueInput: CustomerUniqueInput!): Customer
   unpaidBookingByCustomer(customerUniqueInput: CustomerUniqueInput!): [Booking!]
   allRooms: [Room!]
+  availableRooms(checkIn: DateTime!, checkOut: DateTime!): [Room!]!
   bookingById(id: Float!): Booking
   allBookings: [Booking!]
 }

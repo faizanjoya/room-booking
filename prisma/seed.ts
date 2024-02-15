@@ -70,28 +70,28 @@ const customerData: Prisma.CustomerCreateInput[] = [
 
 const roomData: Prisma.RoomCreateInput[] = [
   {
-    title: 'Room 1',
-    description: 'A nice room with a view',
+    title: 'Single bed deluxe',
+    description: 'Perfect for solo adventurers.',
     number: 101,
     type: 'SINGLE',
     sleeps: 1,
     cost: 100,
   },
   {
-    title: 'Room 2',
-    description: 'A nice room with a view',
+    title: 'Double bed luxury',
+    description: 'Leonardo DiCaprio stayed here once. Comes with a nice view of the city and a balcony.',
     number: 102,
     type: 'DOUBLE',
     sleeps: 2,
-    cost: 150,
+    cost: 200,
   },
   {
-    title: 'Room 3',
-    description: 'A nice room with a view',
+    title: 'Family suite',
+    description: 'Comes with a nice view of the city and a kitchenette. Perfect for families with kids.',
     number: 103,
     type: 'FAMILY',
     sleeps: 4,
-    cost: 200,
+    cost: 400,
   },
 
 ]
@@ -138,8 +138,8 @@ main()
   .then(async () => {
     await prisma.$disconnect()
   })
-  .catch(async (e) => {
-    console.error(e)
+  .catch(async (error) => {
+    console.error(error)
     console.error('Error seeding the database')
     await prisma.$disconnect()
     process.exit(1)

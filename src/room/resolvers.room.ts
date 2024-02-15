@@ -90,6 +90,39 @@ export class RoomResolver {
     return this.prismaService.room.findMany();
   }
 
+  @Query((returns) => [Room])
+  async availableRooms(
+    @Args('checkIn') checkIn: Date,
+    @Args('checkOut') checkOut: Date,
+    @Context() ctx,
+  ) {
+
+
+    if (checkIn >= checkOut) {
+      throw new Error('Check-in DateTime must be before check-out DateTime');
+    }
+
+    try {
+      console.log(checkIn, checkOut);
+
+      return await this.prismaService.room.findMany({
+        where: {
+          bookings: {
+            every: {
+              OR: [
+                { checkOut: { lte: checkIn } }, // Booking checkOut is before or on checkIn
+                { checkIn: { gte: checkOut } }, // Booking checkIn is after or on checkOut
+              ],
+            },
+          },
+        },
+      });
+
+    } catch (error) {
+      throw new Error(`Error finding available rooms. ${error.message}`);
+    }
+  }
+
   @Mutation((returns) => Room, { nullable: true })
   async deleteRoom(
     @Args('id') id: number,
