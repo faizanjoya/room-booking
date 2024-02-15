@@ -111,23 +111,27 @@ export class BookingResolver {
             throw new Error('Room is already booked for the selected dates');
         }
 
-        return this.prismaService.booking.create({
-            data: {
-                checkIn: bookingStartAtDateTime,
-                checkOut: bookingEndAtDateTime,
-                paid: data.paid,
-                room: {
-                    connect: {
-                        id: data.roomId,
+        try {
+            return await this.prismaService.booking.create({
+                data: {
+                    checkIn: bookingStartAtDateTime,
+                    checkOut: bookingEndAtDateTime,
+                    paid: data.paid,
+                    room: {
+                        connect: {
+                            id: data.roomId,
+                        },
+                    },
+                    customer: {
+                        connect: {
+                            id: data.customerId,
+                        },
                     },
                 },
-                customer: {
-                    connect: {
-                        id: data.customerId,
-                    },
-                },
-            },
-        });
+            });
+        } catch (error) {
+            throw new Error(`Error creating booking. ${error.meta.cause}`);
+        }
     }
 
     @Mutation((returns) => Booking, { nullable: true })
