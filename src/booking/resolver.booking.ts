@@ -52,15 +52,23 @@ export class BookingResolver {
     }
 
     @Query((returns) => Booking, { nullable: true })
-    async bookingById(@Args('id') id: number) {
-        return this.prismaService.booking.findUnique({
-            where: { id },
-        });
+    bookingById(@Args('id') id: number) {
+        try {
+            return this.prismaService.booking.findUnique({
+                where: { id },
+            });
+        } catch (error) {
+            throw new Error(`Error fetching booking. ${error}`);
+        }
     }
 
     @Query((returns) => [Booking], { nullable: true })
-    async allBookings(@Context() ctx) {
-        return this.prismaService.booking.findMany();
+    allBookings(@Context() ctx) {
+        try {
+            return this.prismaService.booking.findMany();
+        } catch (error) {
+            throw new Error(`Error fetching bookings. ${error}`);
+        }
     }
 
     @Mutation((returns) => Booking)
@@ -70,7 +78,7 @@ export class BookingResolver {
     ): Promise<Booking> {
 
         if (data.checkIn >= data.checkOut) {
-            throw new Error('Check-in date must be before check-out date');
+            throw new Error('Check-in dateTime must be before check-out dateTime');
         }
 
         const today = new Date();
@@ -139,11 +147,15 @@ export class BookingResolver {
         @Args('id') id: number,
         @Context() ctx,
     ): Promise<Booking | null> {
-        return this.prismaService.booking.delete({
-            where: {
-                id: id,
-            },
-        })
+        try {
+            return await this.prismaService.booking.delete({
+                where: {
+                    id: id,
+                },
+            })
+        } catch (error) {
+            throw new Error(`Error deleting booking. ${error}`);
+        }
     }
 
     @Mutation((returns) => Booking, { nullable: true })
@@ -151,22 +163,26 @@ export class BookingResolver {
         @Args('id') id: number,
         @Args('isPaid') isPaid: boolean,
     ): Promise<Booking | null> {
-        const booking = await this.prismaService.booking.findUnique({
-            where: { id: id || undefined }
-        })
+        try {
+            const booking = await this.prismaService.booking.findUnique({
+                where: { id: id || undefined }
+            })
 
-        if (!booking) {
-            throw new Error('Booking not found');
+            if (!booking) {
+                throw new Error('Booking not found');
+            }
+
+            if (booking.paid === isPaid) {
+                return booking;
+            }
+
+            return await this.prismaService.booking.update({
+                where: { id: id || undefined },
+                data: { paid: isPaid },
+            })
+        } catch (error) {
+            throw new Error(`Error updating booking. ${error}`);
         }
-
-        if (booking.paid === isPaid) {
-            return booking;
-        }
-
-        return this.prismaService.booking.update({
-            where: { id: id || undefined },
-            data: { paid: isPaid },
-        })
     }
 
 }

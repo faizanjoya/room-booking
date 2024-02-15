@@ -25,23 +25,52 @@
   }
 }
 
-
+# example data for createBooking mutation
+# adjust checkin and checkout dates to find available rooms
 {
   "data": {
-    "checkIn": "2024-02-14T12:00:00Z",
-    "checkOut": "2024-02-16T12:00:00Z",
+    "checkIn": "2024-03-16T15:00:00Z",
+    "checkOut": "2024-03-17T12:00:00Z",
     "paid": true,
     "roomId": 1,
-    "customerId": 2
+    "customerId": 1
   }
 }
 
 
 
 # toggle paid for an exisitng booking. update id and isPaid param to match booking
-mutation {
+mutation togglePaidBooking {
   togglePaidBooking(id:1, isPaid:true) {
     id
+    createdAt
+    updatedAt
+    checkIn
+    checkOut
+    paid
+    room {
+    	id
+      title
+      description
+      number
+      type
+      sleeps
+      cost
+    }
+    customer {
+      id
+      name
+      email
+      phone
+    }
+  }
+}
+
+
+# update id prameter to the booking id 
+mutation deleteBooking{
+  deleteBooking(id: 1){
+     id
     createdAt
     updatedAt
     checkIn
