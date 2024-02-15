@@ -14,6 +14,7 @@ import { Inject } from '@nestjs/common';
 import { Booking } from '../booking/booking';
 import { Customer } from './customer';
 import { PrismaService } from '../prisma.service';
+import validator from 'validator';
 
 @InputType()
 class CustomerUniqueInput {
@@ -56,10 +57,23 @@ export class CustomerResolver {
     @Args('data') data: CustomerCreateInput,
     @Context() ctx,
   ): Promise<Customer> {
+
+    if (!validator.isEmail(data.email)) {
+      throw new Error(`Invalid email address: ${data.email}`);
+    }
+
+    // ¯\_(ツ)_/¯
+    if (data.name.trim().length < 2) {
+      throw new Error("Please enter longer than 2 characters");
+    }
+
+    // TODO: check phone number format once we have a better understanding of the requirements
+    // TODO: check name, length, once better understand
+
     return await this.prismaService.customer.create({
       data: {
         email: data.email,
-        name: data.name,
+        name: data.name.trim(),
         phone: data.phone,
       },
     });
