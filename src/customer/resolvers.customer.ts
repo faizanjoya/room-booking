@@ -15,6 +15,7 @@ import { Booking } from '../booking/booking';
 import { Customer } from './customer';
 import { PrismaService } from '../prisma.service';
 import validator from 'validator';
+import { NAME_MIN_LENGTH } from 'src/const';
 
 @InputType()
 class CustomerUniqueInput {
@@ -26,7 +27,7 @@ class CustomerUniqueInput {
 }
 
 @InputType()
-class CustomerCreateInput {
+export class CustomerCreateInput {
   @Field()
   email: string;
 
@@ -63,8 +64,8 @@ export class CustomerResolver {
     }
 
     // ¯\_(ツ)_/¯
-    if (data.name.trim().length < 2) {
-      throw new Error("Please enter longer than 2 characters");
+    if (data.name.trim().length < NAME_MIN_LENGTH) {
+      throw new Error(`Name must be ${NAME_MIN_LENGTH} or more characters`);
     }
 
     // TODO: check phone number format once we have a better understanding of the requirements

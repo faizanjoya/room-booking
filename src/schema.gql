@@ -102,6 +102,7 @@ type Mutation {
   createRoom(data: RoomCreateInput!): Room!
   deleteRoom(id: Float!): Room
   createBooking(data: BookingCreateInput!): Booking!
+  createBookingAndNewCustomer(data: BookingAndCustomerCreateInput!): Booking!
   deleteBooking(id: Float!): Booking
   togglePaidBooking(id: Float!, isPaid: Boolean!): Booking
 }
@@ -138,4 +139,12 @@ input BookingCreateInput {
   paid: Boolean
   roomId: Int!
   customerId: Int!
+}
+
+input BookingAndCustomerCreateInput {
+  checkIn: DateTime!
+  checkOut: DateTime!
+  paid: Boolean
+  roomId: Int!
+  customerCreate: CustomerCreateInput!
 }
