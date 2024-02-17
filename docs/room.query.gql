@@ -12,10 +12,7 @@ query AllRooms {
 
 # adjust checkin and checkout dates to find available rooms
 query FindAvailableRooms {
-  availableRooms(
-    checkIn: "2024-02-16T01:00:00Z"
-    checkOut: "2024-02-17T12:00:00Z"
-  ) {
+  availableRooms(checkIn: "2024-02-16", checkOut: "2024-02-17") {
     id
     title
     description

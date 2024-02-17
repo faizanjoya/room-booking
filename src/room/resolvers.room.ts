@@ -15,6 +15,7 @@ import { Booking } from '../booking/booking';
 import { Room } from './room';
 import { PrismaService } from '../prisma.service';
 import { RoomType } from '@prisma/client';
+import { BOOKING_END_HOUR_UTC, BOOKING_START_HOUR_UTC } from 'src/const';
 
 // TODO roomunique input
 @InputType()
@@ -97,14 +98,14 @@ export class RoomResolver {
     @Context() ctx,
   ) {
 
-
     if (checkIn >= checkOut) {
-      throw new Error('Check-in DateTime must be before check-out DateTime');
+      throw new Error('Check-in Date must be before check-out Date');
     }
 
-    try {
-      console.log(checkIn, checkOut);
+    checkIn.setUTCHours(BOOKING_START_HOUR_UTC, 0, 0, 0);
+    checkOut.setUTCHours(BOOKING_END_HOUR_UTC, 0, 0, 0);
 
+    try {
       return await this.prismaService.room.findMany({
         where: {
           bookings: {
