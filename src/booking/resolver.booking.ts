@@ -5,7 +5,7 @@ import { Booking } from './booking';
 import { Room } from '../room/room';
 import { Customer } from '../customer/customer';
 import { PrismaService } from '../prisma.service';
-import { BOOKING_END_HOUR, BOOKING_START_HOUR, NAME_MIN_LENGTH } from '../const';
+import { BOOKING_END_HOUR_UTC, BOOKING_START_HOUR_UTC, NAME_MIN_LENGTH } from '../const';
 import { CustomerCreateInput } from 'src/customer/resolvers.customer';
 import validator from 'validator';
 
@@ -91,39 +91,31 @@ export class BookingResolver {
     ): Promise<Booking> {
 
         if (data.checkIn >= data.checkOut) {
-            throw new Error('Check-in dateTime must be before check-out dateTime');
+            throw new Error('Booking check-in date must be before check-out date');
         }
 
+        const bookingStartAt = new Date(data.checkIn);
+        const bookingEndAt = new Date(data.checkOut);
         const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        if (data.checkIn < today) {
-            throw new Error('Check-in date must be today or in the future');
+
+        today.setUTCHours(0, 0, 0, 0);
+        bookingStartAt.setUTCHours(0, 0, 0, 0);
+
+        if (bookingStartAt < today) {
+            throw new Error('Booking check-in date must be from today or in the future. It cannot be in the past');
         }
 
-        const bookingStartAtDateTime = new Date(data.checkIn);
-        const bookingEndAtDateTime = new Date(data.checkOut);
-
-        // assumed booking Start and End time hour set in const file
-        if (bookingStartAtDateTime.getHours() < BOOKING_START_HOUR) {
-            throw new Error(`Booking start time should be at or after ${BOOKING_START_HOUR}:00`);
-        }
-
-        if (bookingEndAtDateTime.getHours() > BOOKING_END_HOUR) {
-            throw new Error(`Booking end time should be at or ealier than ${BOOKING_START_HOUR}:00`);
-        }
-
-        // Assumption minutes, seconds and milliseconds are 0 always
-        bookingStartAtDateTime.setHours(BOOKING_START_HOUR, 0, 0, 0)
-        bookingEndAtDateTime.setHours(BOOKING_END_HOUR, 0, 0, 0);
+        bookingStartAt.setUTCHours(BOOKING_START_HOUR_UTC, 0, 0, 0)
+        bookingEndAt.setUTCHours(BOOKING_END_HOUR_UTC, 0, 0, 0);
 
         const listExistingBookings = await this.prismaService.booking.findMany({
             where: {
                 roomId: data.roomId,
                 checkIn: {
-                    lte: bookingEndAtDateTime,
+                    lte: bookingEndAt,
                 },
                 checkOut: {
-                    gte: bookingStartAtDateTime,
+                    gte: bookingStartAt,
                 },
             },
         });
@@ -135,8 +127,8 @@ export class BookingResolver {
         try {
             return await this.prismaService.booking.create({
                 data: {
-                    checkIn: bookingStartAtDateTime,
-                    checkOut: bookingEndAtDateTime,
+                    checkIn: bookingStartAt,
+                    checkOut: bookingEndAt,
                     paid: data.paid,
                     room: {
                         connect: {
@@ -161,25 +153,18 @@ export class BookingResolver {
         @Context() ctx,
     ): Promise<Booking> {
         if (data.checkIn >= data.checkOut) {
-            throw new Error('Check-in dateTime must be before check-out dateTime');
+            throw new Error('Booking check-in date must be before check-out date');
         }
 
+        const bookingStartAt = new Date(data.checkIn);
+        const bookingEndAt = new Date(data.checkOut);
         const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        if (data.checkIn < today) {
-            throw new Error('Check-in date must be today or in the future');
-        }
 
-        const bookingStartAtDateTime = new Date(data.checkIn);
-        const bookingEndAtDateTime = new Date(data.checkOut);
+        today.setUTCHours(0, 0, 0, 0);
+        bookingStartAt.setUTCHours(0, 0, 0, 0);
 
-        // assumed booking Start and End time hour set in const file
-        if (bookingStartAtDateTime.getHours() < BOOKING_START_HOUR) {
-            throw new Error(`Booking start time should be at or after ${BOOKING_START_HOUR}:00`);
-        }
-
-        if (bookingEndAtDateTime.getHours() > BOOKING_END_HOUR) {
-            throw new Error(`Booking end time should be at or ealier than ${BOOKING_START_HOUR}:00`);
+        if (bookingStartAt < today) {
+            throw new Error('Booking check-in date must be from today or in the future. It cannot be in the past');
         }
 
         if (!validator.isEmail(data.customerCreate.email.trim())) {
@@ -190,18 +175,17 @@ export class BookingResolver {
             throw new Error(`Name must be ${NAME_MIN_LENGTH} or more characters`);
         }
 
-        // Assumption minutes, seconds and milliseconds are 0 always
-        bookingStartAtDateTime.setHours(BOOKING_START_HOUR, 0, 0, 0)
-        bookingEndAtDateTime.setHours(BOOKING_END_HOUR, 0, 0, 0);
+        bookingStartAt.setUTCHours(BOOKING_START_HOUR_UTC, 0, 0, 0)
+        bookingEndAt.setUTCHours(BOOKING_END_HOUR_UTC, 0, 0, 0);
 
         const listExistingBookings = await this.prismaService.booking.findMany({
             where: {
                 roomId: data.roomId,
                 checkIn: {
-                    lte: bookingEndAtDateTime,
+                    lte: bookingEndAt,
                 },
                 checkOut: {
-                    gte: bookingStartAtDateTime,
+                    gte: bookingStartAt,
                 },
             },
         });
@@ -223,8 +207,8 @@ export class BookingResolver {
 
                 const createdBooking = await prisma.booking.create({
                     data: {
-                        checkIn: bookingStartAtDateTime,
-                        checkOut: bookingEndAtDateTime,
+                        checkIn: bookingStartAt,
+                        checkOut: bookingEndAt,
                         paid: data.paid,
                         room: {
                             connect: {

@@ -29,8 +29,8 @@ mutation createBookingAndNewCustomer($data: BookingAndCustomerCreateInput!) {
 # example data for createBookingAndNewCustomer mutation
 {
   "data": {
-    "checkIn": "2024-03-17T15:00:00Z",
-    "checkOut": "2024-03-18T12:00:00Z",
+    "checkIn": "2024-03-17",
+    "checkOut": "2024-03-18",
     "paid": true,
     "roomId": 1,
 		"customerCreate": {
@@ -74,8 +74,8 @@ mutation createBooking($data: BookingCreateInput!) {
 # example data for createBooking mutation
 {
   "data": {
-    "checkIn": "2024-03-16T15:00:00Z",
-    "checkOut": "2024-03-17T12:00:00Z",
+    "checkIn": "2024-03-16",
+    "checkOut": "2024-03-17",
     "paid": true,
     "roomId": 1,
     "customerId": 1
