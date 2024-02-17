@@ -1,5 +1,51 @@
 
-  mutation createBooking($data: BookingCreateInput!) {
+#  To create booking and a customer in one go
+mutation createBookingAndNewCustomer($data: BookingAndCustomerCreateInput!) {
+  createBookingAndNewCustomer(data: $data) {
+   id
+    createdAt
+    updatedAt
+    checkIn
+    checkOut
+    paid
+    room {
+      id
+      title
+      description
+      number
+      type
+      sleeps
+      cost
+    }
+    customer {
+      id
+      name
+      email
+      phone
+    }
+  }
+}
+
+# example data for createBookingAndNewCustomer mutation
+{
+  "data": {
+    "checkIn": "2024-03-17T15:00:00Z",
+    "checkOut": "2024-03-18T12:00:00Z",
+    "paid": true,
+    "roomId": 1,
+		"customerCreate": {
+     	"email":"neumann@example.com",
+      "name": "neumann",
+      "phone":"123007"
+    }
+  }
+}
+
+
+
+
+# Create booking for exisitng customer, update roomId and customerId to match the room and customer id
+mutation createBooking($data: BookingCreateInput!) {
   createBooking(data: $data) {
     id
     createdAt
@@ -26,7 +72,6 @@
 }
 
 # example data for createBooking mutation
-# adjust checkin and checkout dates to find available rooms
 {
   "data": {
     "checkIn": "2024-03-16T15:00:00Z",
@@ -67,7 +112,7 @@ mutation togglePaidBooking {
 }
 
 
-# update id prameter to the booking id 
+# Delete booking, update id prameter to the booking id 
 mutation deleteBooking{
   deleteBooking(id: 1){
      id
