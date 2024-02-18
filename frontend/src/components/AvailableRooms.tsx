@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import useGetAvailableRooms from "../hooks/useGetAvailableRooms";
-import {
-  DateRange,
-  DateRangePicker,
-  LocalizationProvider,
-} from "@mui/x-date-pickers-pro";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateRange, DateRangePicker } from "@mui/x-date-pickers-pro";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
+import Container from "@mui/material/Container";
 
 interface Room {
   id: number;
@@ -36,40 +32,50 @@ function AvailableRooms() {
   );
 
   const handleAccept = (newValue: DateRange<Dayjs>) => {
-    setValue(newValue);
+    if (!newValue[0] || !newValue[1]) {
+      return;
+    }
+
+    if (newValue[0].isBefore(newValue[1])) {
+      setValue(newValue);
+    }
   };
 
   useEffect(() => {
-    refetch({
-      checkIn: value[0]?.toDate() || new Date(),
-      checkOut: value[1]?.toDate() || new Date(),
-    });
+    if (!error && !loading && data) {
+      refetch({
+        checkIn: value[0]?.toDate() || new Date(),
+        checkOut: value[1]?.toDate() || new Date(),
+      });
+    }
   }, [value, refetch]);
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Error fetching available rooms</p>;
-  }
-
-  if (data) {
-    console.log(data);
-  }
-
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
+    <Container
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        margin: "0 auto",
+        padding: "2rem",
+        width: "40rem",
+      }}
+    >
       <DateRangePicker
         value={value}
         onAccept={handleAccept}
         localeText={{ start: "Check-in", end: "Check-out" }}
       />
 
+      {error && <p>Error fetching available rooms</p>}
+      {loading && <p>Loading...</p>}
+      {data && data.availableRooms.length === 0 && (
+        <p>No rooms available for selected dates</p>
+      )}
+
       <div>
-        <p>Available Rooms</p>
         {data?.availableRooms.map((room: Room) => (
-          <Card key={room.id} sx={{ marginBottom: 2 }}>
+          <Card key={room.id} sx={{ marginTop: 2 }}>
             <CardContent>
               <Typography variant="h5">{room.title}</Typography>
               <Grid container spacing={2} sx={{ marginTop: 1 }}>
@@ -77,7 +83,7 @@ function AvailableRooms() {
                   <Typography>{room.cost} GBP</Typography>
                 </Grid>
                 <Grid item xs={4}>
-                  <Typography>{room.sleeps} Sleeps</Typography>
+                  <Typography>Sleeps {room.sleeps}</Typography>
                 </Grid>
                 <Grid item xs={4}>
                   <Typography>{room.type}</Typography>
@@ -88,7 +94,7 @@ function AvailableRooms() {
           </Card>
         ))}
       </div>
-    </LocalizationProvider>
+    </Container>
   );
 }
 
