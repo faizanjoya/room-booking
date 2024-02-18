@@ -2,65 +2,97 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
+type Room {
   id: Int!
-  email: String!
-  name: String
-  posts: [Post!]
-}
-
-type Post {
-  id: Int!
-  createdAt: Timestamp!
-  updatedAt: Timestamp!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   title: String!
-  content: String
-  published: Boolean
-  viewCount: Int!
-  author: User
+  description: String
+  number: Int!
+  type: String!
+  sleeps: Int!
+  cost: Int!
+  bookings: [Booking!]
 }
 
 """
-`Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
-scalar Timestamp
+scalar DateTime
+
+type Customer {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  email: String!
+  name: String!
+  phone: String
+  bookings: [Booking!]
+}
+
+type Booking {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  checkIn: DateTime!
+  checkOut: DateTime!
+  paid: Boolean
+  room: Room
+  customer: Customer
+}
 
 type Query {
-  allUsers: [User!]
-  draftsByUser(userUniqueInput: UserUniqueInput!): [Post!]
-  postById(id: Float!): Post
-  feed(searchString: String, skip: Float, take: Float, orderBy: PostOrderByUpdatedAtInput): [Post!]!
+  allCustomers: [Customer!]
+  customerByIdOrEmail(customerUniqueInput: CustomerUniqueInput!): Customer
+  unpaidBookingByCustomer(customerUniqueInput: CustomerUniqueInput!): [Booking!]
+  allRooms: [Room!]
+  availableRooms(checkIn: DateTime!, checkOut: DateTime!): [Room!]!
+  bookingById(id: Float!): Booking
+  allBookings: [Booking!]
 }
 
-input UserUniqueInput {
+input CustomerUniqueInput {
   id: Float
   email: String
 }
 
-input PostOrderByUpdatedAtInput {
-  updatedAt: SortOrder!
-}
-
-enum SortOrder {
-  asc
-  desc
-}
-
 type Mutation {
-  signupUser(data: UserCreateInput!): User!
-  createDraft(data: PostCreateInput!, authorEmail: String!): Post!
-  incrementPostViewCount(id: Float!): Post!
-  togglePublishPost(id: Float!): Post
-  deletePost(id: Float!): Post
+  createCustomer(data: CustomerCreateInput!): Customer!
+  createRoom(data: RoomCreateInput!): Room!
+  deleteRoom(id: Float!): Room
+  createBooking(data: BookingCreateInput!): Booking!
+  createBookingAndNewCustomer(data: BookingAndCustomerCreateInput!): Booking!
+  deleteBooking(id: Float!): Booking
+  togglePaidBooking(id: Float!, isPaid: Boolean!): Booking
 }
 
-input UserCreateInput {
+input CustomerCreateInput {
   email: String!
-  name: String
-  posts: [PostCreateInput!]
+  name: String!
+  phone: String
 }
 
-input PostCreateInput {
+input RoomCreateInput {
   title: String!
-  content: String
+  description: String
+  number: Float!
+  type: String!
+  sleeps: Float!
+  cost: Float!
+}
+
+input BookingCreateInput {
+  checkIn: DateTime!
+  checkOut: DateTime!
+  paid: Boolean
+  roomId: Int!
+  customerId: Int!
+}
+
+input BookingAndCustomerCreateInput {
+  checkIn: DateTime!
+  checkOut: DateTime!
+  paid: Boolean
+  roomId: Int!
+  customerCreate: CustomerCreateInput!
 }

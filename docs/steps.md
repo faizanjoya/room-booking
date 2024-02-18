@@ -4,22 +4,45 @@ Downloaded example
 npx try-prisma@latest --template typescript/graphql-nestjs
 ```
 
-Run postgressql
-docker compose up -d
-or
+Install
+
+```
+make install
+```
+
+Run postgressql database and db admin panel
+
+```
 make db
-
-```
-npm install
-make generate
-npm run migrate
 ```
 
-Add data to db
+Run database migrations
+
+```
+make migrate
+```
+
+If there are errors and want to clear your docker
+
+```
+docker compose down -v
+```
+
+then run again above
+
+Launch the Server
+
+```
+make dev
+```
+
+In sepatate terminal window
+Seed the databse
+
+```
 make seed
-
-launch
-
 ```
-npm run dev
-```
+
+Query the graphql server
+naviagte to url:
+queries

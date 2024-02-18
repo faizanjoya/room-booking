@@ -8,40 +8,47 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
-}
-
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  viewCount Int      @default(0)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
-}
-
-// hotel room booking
 model Room {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   title       String
   description String?
-  number      Int
-  type        RoomType @default(SINGLE)
-  sleeps      Int      @default(1)
+  number      Int       @unique
+  type        RoomType  @default(SINGLE)
+  sleeps      Int       @default(1)
+  cost        Float
+  bookings    Booking[]
 }
 
+// if we want users to be able to create room types then we should create roomtype model, and then create a relation between room and roomtype
 enum RoomType {
   SINGLE
   DOUBLE
   KING
   SUITE
+  FAMILY
+}
+
+model Customer {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  email     String    @unique
+  name      String
+  phone     String?
+  bookings  Booking[]
+}
+
+model Booking {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  checkIn    DateTime
+  checkOut   DateTime
+  paid       Boolean  @default(false)
+  room       Room     @relation(fields: [roomId], references: [id])
+  roomId     Int
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId Int
 }

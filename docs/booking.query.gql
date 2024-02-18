@@ -1,0 +1,52 @@
+query allBookings {
+  allBookings {
+    id
+    createdAt
+    updatedAt
+    checkIn
+    checkOut
+    paid
+    room {
+      id
+      title
+      description
+      number
+      type
+      sleeps
+      cost
+    }
+    customer {
+      id
+      name
+      email
+      phone
+    }
+  }
+}
+
+# update id prameter to the booking id you want to query
+query bookingById {
+  bookingById(id: 2) {
+    id
+    createdAt
+    updatedAt
+    checkIn
+    checkOut
+    paid
+    room {
+      id
+      title
+      description
+      number
+      type
+      sleeps
+      cost
+    }
+    customer {
+      id
+      name
+      email
+      phone
+    }
+  }
+}

@@ -1,0 +1,37 @@
+# create a new room
+
+mutation CreateRoom {
+  createRoom(
+    data: {
+      title: "King Suite"
+      description: "Huuuuuge bed and a great view of the city"
+      number: 104
+      type: "KING"
+      sleeps: 2
+      cost: 4000
+    }
+  ) {
+    id
+    createdAt
+    updatedAt
+    title
+    description
+    number
+    type
+    sleeps
+    cost
+  }
+}
+
+# delete room
+mutation DeleteRoom {
+  deleteRoom(id: 5) {
+    id
+    title
+    description
+    number
+    type
+    sleeps
+    cost
+  }
+}

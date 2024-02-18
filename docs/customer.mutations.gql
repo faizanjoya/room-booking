@@ -1,0 +1,12 @@
+mutation createCustomer {
+  createCustomer(
+    data: { email: "faizan@example.com", name: "faizan", phone: "123-456-123" }
+  ) {
+    id
+    createdAt
+    updatedAt
+    email
+    name
+    phone
+  }
+}
