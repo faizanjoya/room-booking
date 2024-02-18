@@ -2,29 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
-  id: Int!
-  email: String!
-  name: String
-  posts: [Post!]
-}
-
-type Post {
-  id: Int!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  title: String!
-  content: String
-  published: Boolean
-  viewCount: Int!
-  author: User
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type Room {
   id: Int!
   createdAt: DateTime!
@@ -37,6 +14,11 @@ type Room {
   cost: Int!
   bookings: [Booking!]
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type Customer {
   id: Int!
@@ -60,10 +42,6 @@ type Booking {
 }
 
 type Query {
-  allUsers: [User!]
-  draftsByUser(userUniqueInput: UserUniqueInput!): [Post!]
-  postById(id: Float!): Post
-  feed(searchString: String, skip: Float, take: Float, orderBy: PostOrderByUpdatedAtInput): [Post!]!
   allCustomers: [Customer!]
   customerByIdOrEmail(customerUniqueInput: CustomerUniqueInput!): Customer
   unpaidBookingByCustomer(customerUniqueInput: CustomerUniqueInput!): [Booking!]
@@ -73,31 +51,12 @@ type Query {
   allBookings: [Booking!]
 }
 
-input UserUniqueInput {
-  id: Float
-  email: String
-}
-
-input PostOrderByUpdatedAtInput {
-  updatedAt: SortOrder!
-}
-
-enum SortOrder {
-  asc
-  desc
-}
-
 input CustomerUniqueInput {
   id: Float
   email: String
 }
 
 type Mutation {
-  signupUser(data: UserCreateInput!): User!
-  createDraft(data: PostCreateInput!, authorEmail: String!): Post!
-  incrementPostViewCount(id: Float!): Post!
-  togglePublishPost(id: Float!): Post
-  deletePost(id: Float!): Post
   createCustomer(data: CustomerCreateInput!): Customer!
   createRoom(data: RoomCreateInput!): Room!
   deleteRoom(id: Float!): Room
@@ -105,17 +64,6 @@ type Mutation {
   createBookingAndNewCustomer(data: BookingAndCustomerCreateInput!): Booking!
   deleteBooking(id: Float!): Booking
   togglePaidBooking(id: Float!, isPaid: Boolean!): Booking
-}
-
-input UserCreateInput {
-  email: String!
-  name: String
-  posts: [PostCreateInput!]
-}
-
-input PostCreateInput {
-  title: String!
-  content: String
 }
 
 input CustomerCreateInput {

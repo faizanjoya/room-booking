@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { PrismaService } from './prisma.service'
-import { PostResolver } from './posts/resolvers.post'
-import { UserResolver } from './user/resolvers.user'
 import { join } from 'path'
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { CustomerResolver } from './customer/resolvers.customer'
@@ -17,6 +15,6 @@ import { BookingResolver } from './booking/resolver.booking'
     }),
   ],
   controllers: [],
-  providers: [PrismaService, UserResolver, PostResolver, CustomerResolver, RoomResolver, BookingResolver],
+  providers: [PrismaService, CustomerResolver, RoomResolver, BookingResolver],
 })
 export class AppModule { }
