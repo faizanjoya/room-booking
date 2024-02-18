@@ -23,6 +23,7 @@ function AvailableRooms() {
     dayjs(),
     dayjs().add(1, "day"),
   ]);
+  const [numberOfNights, setNumberOfNights] = useState<number>(1);
 
   const [checkInDate, checkOutDate] = value;
 
@@ -38,6 +39,7 @@ function AvailableRooms() {
 
     if (newValue[0].isBefore(newValue[1])) {
       setValue(newValue);
+      setNumberOfNights(newValue[1].diff(newValue[0], "day"));
     }
   };
 
@@ -48,7 +50,7 @@ function AvailableRooms() {
         checkOut: value[1]?.toDate() || new Date(),
       });
     }
-  }, [value, refetch]);
+  }, [value, refetch, error, loading, data]);
 
   return (
     <Container
@@ -80,7 +82,7 @@ function AvailableRooms() {
               <Typography variant="h5">{room.title}</Typography>
               <Grid container spacing={2} sx={{ marginTop: 1 }}>
                 <Grid item xs={4}>
-                  <Typography>{room.cost} GBP</Typography>
+                  <Typography>{room.cost * numberOfNights} GBP</Typography>
                 </Grid>
                 <Grid item xs={4}>
                   <Typography>Sleeps {room.sleeps}</Typography>
