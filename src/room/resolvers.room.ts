@@ -17,16 +17,6 @@ import { PrismaService } from '../prisma.service';
 import { RoomType } from '@prisma/client';
 import { BOOKING_END_HOUR_UTC, BOOKING_START_HOUR_UTC } from 'src/const';
 
-// TODO roomunique input
-@InputType()
-class RoomUniqueInput {
-  @Field({ nullable: true })
-  id: number;
-
-  @Field({ nullable: true })
-  number: number;
-}
-
 @InputType()
 class RoomCreateInput {
   @Field()

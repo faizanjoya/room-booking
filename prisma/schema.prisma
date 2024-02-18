@@ -27,17 +27,6 @@ model Post {
   authorId  Int?
 }
 
-// hotel room booking
-
-// model Hotel {
-//   id        Int      @id @default(autoincrement())
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-//   name      String
-//   location  String
-//   rooms     Room[]
-// }
-
 model Room {
   id          Int       @id @default(autoincrement())
   createdAt   DateTime  @default(now())
