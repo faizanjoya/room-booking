@@ -1,5 +1,18 @@
-import { useQuery } from '@apollo/client';
-import { GET_AVAILABLE_ROOMS_QUERY } from '../graphql/queries/availableRooms';
+import { gql, useQuery } from '@apollo/client';
+
+const GET_AVAILABLE_ROOMS_QUERY = gql`
+  query GetAvailableRooms($checkIn: DateTime!, $checkOut: DateTime!) {
+    availableRooms(checkIn: $checkIn, checkOut: $checkOut) {
+      id
+      title
+      description
+      number
+      type
+      sleeps
+      cost
+    }
+  }
+`;
 
 const useGetAvailableRooms = (checkIn: Date, checkOut: Date) => {
     const { data, loading, error, refetch } = useQuery(GET_AVAILABLE_ROOMS_QUERY, {

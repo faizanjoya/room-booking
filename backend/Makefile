@@ -3,7 +3,7 @@
 install:
 	npm install
 
-db:
+up:
 	docker compose up -d
 
 migrate:
