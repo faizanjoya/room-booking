@@ -1,16 +1,20 @@
 import "./App.css";
-import "dayjs/locale/en-gb";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import AvailableRooms from "./components/AvailableRooms";
-import { LocalizationProvider } from "@mui/x-date-pickers-pro";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
+import BookingForm from "./components/BookingForm";
 
 function App() {
   return (
-    <>
-      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
-        <AvailableRooms />
-      </LocalizationProvider>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="" element={<AvailableRooms />} />
+        <Route
+          path="/book/:roomId/:checkIn/:checkOut"
+          element={<BookingForm />}
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
