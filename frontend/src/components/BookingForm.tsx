@@ -2,19 +2,15 @@ import { ChangeEvent, FC, FormEvent, useState } from "react";
 import useCreateBookingAndNewCustomer from "../hooks/useCreateBookingAndNewCustomer";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useParams } from "react-router-dom";
+import { useBookingContext } from "./BookingContext";
+import { CreateCustomerInput } from "../types";
 
 const BookingFormOld: FC = () => {
-  const params = useParams();
-  const { roomId, checkIn, checkOut } = params;
-
-  if (!roomId || !checkIn || !checkOut) {
-    throw new Error("Invalid params");
-  }
-
+  const { roomData } = useBookingContext();
   const { createBookingAndNewCustomer, loading, error, data } =
     useCreateBookingAndNewCustomer();
-  const [formData, setFormData] = useState({
+
+  const [formData, setFormData] = useState<CreateCustomerInput>({
     name: "",
     email: "",
     phone: "",
@@ -23,14 +19,18 @@ const BookingFormOld: FC = () => {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
+    if (!roomData) {
+      return;
+    }
+
     try {
       await createBookingAndNewCustomer({
         variables: {
           data: {
-            checkIn: checkIn,
-            checkOut: checkOut,
+            checkIn: roomData.checkIn,
+            checkOut: roomData.checkOut,
             paid: false,
-            roomId: roomId,
+            roomId: roomData.room.id,
             customerCreate: {
               email: formData.email,
               name: formData.name,
@@ -40,9 +40,11 @@ const BookingFormOld: FC = () => {
         },
       });
 
-      // Todo navigate to all bookings page
-      console.log("Booking created:", data);
+      // todo present success message more nicely
+      // naviate to success page
+      console.log(data);
     } catch (error) {
+      //todo present error message more nicely
       console.error("Error creating booking:", error);
     }
   };

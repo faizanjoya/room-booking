@@ -8,6 +8,12 @@ export interface Room {
     cost: number;
 }
 
+export interface BookingRoomInput {
+    checkIn: Date;
+    checkOut: Date;
+    room: Room;
+}
+
 export interface CreateCustomerInput {
     name: string;
     email: string;

@@ -3,17 +3,17 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import AvailableRooms from "./components/AvailableRooms";
 
 import BookingForm from "./components/BookingForm";
+import { BookingContextProvider } from "./components/BookingContext";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="" element={<AvailableRooms />} />
-        <Route
-          path="/book/:roomId/:checkIn/:checkOut"
-          element={<BookingForm />}
-        />
-      </Routes>
+      <BookingContextProvider>
+        <Routes>
+          <Route path="" element={<AvailableRooms />} />
+          <Route path="/book" element={<BookingForm />} />
+        </Routes>
+      </BookingContextProvider>
     </BrowserRouter>
   );
 }
