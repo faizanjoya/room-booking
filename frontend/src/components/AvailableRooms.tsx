@@ -85,6 +85,7 @@ function AvailableRooms() {
           value={value}
           onAccept={handleAccept}
           localeText={{ start: "Check-in", end: "Check-out" }}
+          minDate={dayjs()}
         />
 
         {error && <p>Error fetching available rooms</p>}
