@@ -1,4 +1,4 @@
-query AllRooms {
+query allRooms {
   allRooms {
     id
     title
@@ -11,7 +11,7 @@ query AllRooms {
 }
 
 # adjust checkin and checkout dates to find available rooms
-query FindAvailableRooms {
+query availableRooms {
   availableRooms(checkIn: "2024-02-16", checkOut: "2024-02-17") {
     id
     title
