@@ -105,3 +105,9 @@ make dev
 ```
 
 Navigate to [http://localhost:3001/](http://localhost:3001/) in your browser.
+
+## Licensing
+
+This project is for proof of concept, testing development environment.
+
+- Contains [MUI X Pro](https://mui.com/store/items/mui-x-pro/) component for development purposes.
