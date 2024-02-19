@@ -1,4 +1,4 @@
-query {
+query allCustomers {
   allCustomers {
     id
     name
@@ -8,7 +8,7 @@ query {
 }
 
 # query by email or id
-query {
+query customerByIdOrEmail {
   customerByIdOrEmail(customerUniqueInput: { email: "emma@example.com" }) {
     id
     name
@@ -17,7 +17,7 @@ query {
   }
 }
 
-query {
+query customerByIdOrEmail {
   customerByIdOrEmail(customerUniqueInput: { id: 1 }) {
     id
     name
@@ -27,7 +27,7 @@ query {
 }
 
 #  find out if customer has any unpaid bookings by id or email
-query {
+query unpaidBookingByCustomer {
   unpaidBookingByCustomer(customerUniqueInput: { email: "emma@example.com" }) {
     id
     paid
