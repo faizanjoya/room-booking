@@ -120,21 +120,21 @@ There are many ideas to extend the project, and list is non exhaustive
 
 #### Database architecture
 
-- Currently system aimed for creating booking for one hotel. IN the future could extent to add Hotel table, and each room can be associated to it.
-- Extend to create separate table for Payment details, CheckIn details (for actual customer check in and checkout)
+- Currently, the system is aimed at creating bookings for one hotel. In the future, it could be extended to add a Hotel table, and each room can be associated with it.
+- Extend to create separate tables for Payment details and Check-In details (for actual customer check-in and checkout).
 
 #### Functionality
 
-There are some queries and mutations which can be used or extended for further functionality.
+There are some queries and mutations that can be used or extended for further functionality.
 
-- Create view for customers, where they can amend and update their own bookings.
-- Be able to add different rooms in the hotel (GQL already has mutations)
-- Filter by types of rooms
-- Filter by customers by thier booking, date etc.
-- Filter books by date, so show all bookings for today
-- When a booking is created, it fires an event to send customer a notification (some sort of event/queue system)
-- Add images to rooms, can be processed to be optimised and stored to a CDN, or s3 bucket, then their url stored in db so UI can show
-- Customer payment system
+- Create a view for customers where they can amend and update their own bookings.
+- Be able to add different rooms in the hotel (GraphQL already has mutations).
+- Filter by types of rooms.
+- Filter customers by their bookings, date, etc.
+- Filter bookings by date to show all bookings for today.
+- When a booking is created, it triggers an event to send the customer a notification (some sort of event/queue system).
+- Add images to rooms that can be processed for optimization and stored in a CDN or S3 bucket. Then, their URL is stored in the database so the UI can show them.
+- Implement a customer payment system.
 
 #### Monitoring and Alerting
 
