@@ -51,6 +51,7 @@ function AvailableRooms() {
       checkIn: checkInDate.toDate(),
       checkOut: checkOutDate.toDate(),
       room: room,
+      numberOfNights,
     };
 
     if (dataToSet !== roomData) {
@@ -117,7 +118,7 @@ function AvailableRooms() {
                   onClick={() => handleBook(room)}
                   sx={{ marginTop: 2 }}
                 >
-                  Book
+                  Select this room
                 </Button>
               </CardContent>
             </Card>

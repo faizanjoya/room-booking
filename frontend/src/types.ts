@@ -12,6 +12,7 @@ export interface BookingRoomInput {
     checkIn: Date;
     checkOut: Date;
     room: Room;
+    numberOfNights: number;
 }
 
 export interface CreateCustomerInput {
