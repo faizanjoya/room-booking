@@ -1,4 +1,5 @@
 import { gql, useQuery } from '@apollo/client';
+import { Room } from '../types';
 
 const GET_AVAILABLE_ROOMS_QUERY = gql`
   query GetAvailableRooms($checkIn: DateTime!, $checkOut: DateTime!) {
@@ -14,7 +15,7 @@ const GET_AVAILABLE_ROOMS_QUERY = gql`
   }
 `;
 
-const useGetAvailableRooms = (checkIn: Date, checkOut: Date) => {
+export const useGetAvailableRooms = (checkIn: Date, checkOut: Date) => {
   const { data, loading, error, refetch } = useQuery(GET_AVAILABLE_ROOMS_QUERY, {
     variables: {
       checkIn,
@@ -23,11 +24,9 @@ const useGetAvailableRooms = (checkIn: Date, checkOut: Date) => {
   });
 
   return {
-    availableRooms: data?.availableRooms || [],
+    availableRooms: data?.availableRooms || [] as Room[],
     loading,
     error,
     refetch,
   };
 };
-
-export default useGetAvailableRooms;

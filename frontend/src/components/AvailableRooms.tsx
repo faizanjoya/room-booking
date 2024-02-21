@@ -1,7 +1,6 @@
 import "dayjs/locale/en-gb";
 import { useEffect, useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
-import useGetAvailableRooms from "../hooks/useGetAvailableRooms";
 import { LocalizationProvider } from "@mui/x-date-pickers-pro";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateRange, DateRangePicker } from "@mui/x-date-pickers-pro";
@@ -14,6 +13,7 @@ import Button from "@mui/material/Button";
 import { BookingRoomInput, Room } from "../types";
 import { useBookingContext } from "./BookingContext";
 import { useNavigate } from "react-router-dom";
+import { useGetAvailableRooms } from "../hooks/useGetAvailableRooms";
 
 function AvailableRooms() {
   const navigate = useNavigate();
