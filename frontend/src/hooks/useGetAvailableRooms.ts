@@ -15,19 +15,19 @@ const GET_AVAILABLE_ROOMS_QUERY = gql`
 `;
 
 const useGetAvailableRooms = (checkIn: Date, checkOut: Date) => {
-    const { data, loading, error, refetch } = useQuery(GET_AVAILABLE_ROOMS_QUERY, {
-        variables: {
-            checkIn,
-            checkOut,
-        },
-    });
+  const { data, loading, error, refetch } = useQuery(GET_AVAILABLE_ROOMS_QUERY, {
+    variables: {
+      checkIn,
+      checkOut,
+    },
+  });
 
-    return {
-        data,
-        loading,
-        error,
-        refetch,
-    };
+  return {
+    availableRooms: data?.availableRooms || [],
+    loading,
+    error,
+    refetch,
+  };
 };
 
 export default useGetAvailableRooms;
