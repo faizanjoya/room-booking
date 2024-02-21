@@ -20,7 +20,7 @@ Used following stack:
 - [Prisma Migrate](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations
 - [PostgresQL](https://www.postgresql.org/): Database
 
-### Running GraphQl Server
+### Running GraphQl Server Backend
 
 Ensure Docker is running
 
@@ -81,14 +81,14 @@ Database: postgres
 
 Graphql docs are pretty helpful. In addition there are some example queries and mutations within the [backend/docs](backend/docs) folder to which can be copy and paste into the graphql playground.
 
-## Front end
+## Front-end
 
 - [React](https://reactjs.org/): JavaScript library for building user interfaces
 - [Vite](https://vitejs.dev/): Fast development server and build tool for modern web applications
 - [Apollo Client](https://www.apollographql.com/docs/react/): Fully-featured, production-ready caching GraphQL client for React
 - [Material UI](https://material-ui.com/): React component library for building beautiful UIs
 
-### 1. Install and running front end
+### 1. Install and running front-end
 
 This may require separate terminal window to the server.
 Uses yarn for package manager.
@@ -105,6 +105,15 @@ make dev
 ```
 
 Navigate to [http://localhost:3001/](http://localhost:3001/) in your browser.
+
+### 2. Running tests in front-end
+
+Uses [Vitest](https://vitest.dev/): Testing framework, vite powered and jest compatible
+
+```
+cd frontend
+make test
+```
 
 ## Licenses
 

@@ -1,7 +1,6 @@
 import "dayjs/locale/en-gb";
 import { useEffect, useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
-import useGetAvailableRooms from "../hooks/useGetAvailableRooms";
 import { LocalizationProvider } from "@mui/x-date-pickers-pro";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateRange, DateRangePicker } from "@mui/x-date-pickers-pro";
@@ -14,6 +13,7 @@ import Button from "@mui/material/Button";
 import { BookingRoomInput, Room } from "../types";
 import { useBookingContext } from "./BookingContext";
 import { useNavigate } from "react-router-dom";
+import { useGetAvailableRooms } from "../hooks/useGetAvailableRooms";
 
 function AvailableRooms() {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ function AvailableRooms() {
   const [numberOfNights, setNumberOfNights] = useState<number>(1);
   const { roomData, setRoomData } = useBookingContext();
 
-  const { loading, error, data, refetch } = useGetAvailableRooms(
+  const { loading, error, availableRooms, refetch } = useGetAvailableRooms(
     value[0]?.toDate() || new Date(),
     value[1]?.toDate() || new Date()
   );
@@ -61,13 +61,13 @@ function AvailableRooms() {
   };
 
   useEffect(() => {
-    if (!error && !loading && data) {
+    if (!error && !loading) {
       refetch({
         checkIn: value[0]?.toDate() || new Date(),
         checkOut: value[1]?.toDate() || new Date(),
       });
     }
-  }, [value, refetch, error, loading, data]);
+  }, [value, refetch, error, loading]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
@@ -90,12 +90,12 @@ function AvailableRooms() {
 
         {error && <p>Error fetching available rooms</p>}
         {loading && <p>Loading...</p>}
-        {data && data.availableRooms.length === 0 && (
+        {!loading && availableRooms.length === 0 ? (
           <p>No rooms available for selected dates</p>
-        )}
+        ) : null}
 
         <div>
-          {data?.availableRooms.map((room: Room) => (
+          {availableRooms.map((room: Room) => (
             <Card key={room.id} sx={{ marginTop: 2 }}>
               <CardContent>
                 <Typography variant="h5">{room.title}</Typography>
